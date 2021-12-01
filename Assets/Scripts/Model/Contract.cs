@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player
+public class Contract
 {
-    int idNumber;
-
-    string name;
-    byte age;
-
     int team;
-    Contract contract;
+    int player;
+
+    int remainingDate;
+    int salery;
 }

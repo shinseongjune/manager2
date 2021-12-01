@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Team : MonoBehaviour
+public class Team
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    int idNumber;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    int money;
+    int manager;
+    List<int> players;
+    List<Contract> contracts;
 }
