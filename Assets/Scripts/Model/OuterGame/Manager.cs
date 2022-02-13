@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Manager
 {
-    string name;
+    public int idNumber;
+    public string name;
 }

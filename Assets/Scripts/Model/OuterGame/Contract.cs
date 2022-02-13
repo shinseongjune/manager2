@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Contract
 {
-    int team;
-    int player;
-
-    int remainingDate;
-    int salery;
+    public int idNumber;
+    public int team;
+    public int player;
+    
+    public int remainingWeeks;
+    public int salery;
 }
