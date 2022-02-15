@@ -94,4 +94,21 @@ public class Date
             return true;
         }
     }
+
+    public override int GetHashCode()
+    {
+        return (year - 1) * 48 + (month - 1) * 4 + quarter;
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is Date)
+        {
+            return this == (Date)obj;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

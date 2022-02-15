@@ -16,17 +16,61 @@ public class GameManager
     }
 
     private GameManager() { }
-    #endregion
+    #endregion Singleton
 
+    #region Variables
     Date nowDate = new(2022, 1, 1);
     
-    List<Contract> contracts = new();
-    List<Player> players = new();
-    List<Manager> managers = new();
-    List<Team> teams = new();
+    Dictionary<int, Contract> contracts = new();
+    Dictionary<int, Player> players = new();
+    Dictionary<int, Manager> managers = new();
+    Dictionary<int, Team> teams = new();
+    #endregion Variables
+
+    #region Properties
+    public Date NowDate
+    {
+        get
+        {
+            return nowDate;
+        }
+    }
+
+    public Dictionary<int, Contract> Contracts
+    {
+        get
+        {
+            return contracts;
+        }
+    }
+    public Dictionary<int, Player> Players
+    {
+        get
+        {
+            return players;
+        }
+    }
+    public Dictionary<int, Manager> Managers
+    {
+        get
+        {
+            return managers;
+        }
+    }
+    public Dictionary<int, Team> Teams
+    {
+        get
+        {
+            return teams;
+        }
+    }
+    #endregion Properties
+
+
 
     void DateProgress()
     {
         nowDate++;
+        Team a = new();
     }
 }
