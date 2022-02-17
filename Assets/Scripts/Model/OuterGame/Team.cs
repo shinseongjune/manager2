@@ -2,10 +2,45 @@ using System.Collections.Generic;
 
 public class Team
 {
-    public int idNumber { get; }
+    int idNumber;
 
-    public int Money { get; set; }
-    public int Manager { get; set; }
-    public List<int> Players { get; }
-    public List<Contract> Contracts { get; }
+    string name;
+    int money = 50000;
+    int manager = -1;
+    List<int> players = new();
+    List<int> contracts = new();
+
+    public int IDNumber => idNumber;
+
+    public string Name
+    {
+        get { return name; }
+        set { name = value; }
+    }
+    public int Money
+    {
+        get { return money; }
+        set { money = value; }
+    }
+    public int Manager
+    {
+        get { return manager; }
+        set { manager = value; }
+    }
+    public List<int> Players => players;
+    public List<int> Contracts => contracts;
+
+    public Team(int id, string name)
+    {
+        idNumber = id;
+        this.name = name;
+    }
+
+    public Team(int id, string name, int money, int manager = -1)
+    {
+        idNumber = id;
+        this.name = name;
+        this.money = money;
+        this.manager = manager;
+    }
 }

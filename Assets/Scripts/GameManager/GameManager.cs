@@ -28,49 +28,124 @@ public class GameManager
     #endregion Variables
 
     #region Properties
-    public Date NowDate
-    {
-        get
-        {
-            return nowDate;
-        }
-    }
+    public Date NowDate => nowDate;
 
-    public Dictionary<int, Contract> Contracts
-    {
-        get
-        {
-            return contracts;
-        }
-    }
-    public Dictionary<int, Player> Players
-    {
-        get
-        {
-            return players;
-        }
-    }
-    public Dictionary<int, Manager> Managers
-    {
-        get
-        {
-            return managers;
-        }
-    }
-    public Dictionary<int, Team> Teams
-    {
-        get
-        {
-            return teams;
-        }
-    }
+    public Dictionary<int, Contract> Contracts => contracts;
+    public Dictionary<int, Player> Players => players;
+    public Dictionary<int, Manager> Managers => managers;
+    public Dictionary<int, Team> Teams => teams;
     #endregion Properties
 
+    void AddContract(Contract contract)
+    {
+        if (!contracts.ContainsKey(contract.IDNumber))
+        {
+            contracts.Add(contract.IDNumber, contract);
+        }
+        else
+        {
+            throw new AlreadyExistsInCollectionException();
+        }
+    }
+
+    void DeleteContract(Contract contract)
+    {
+        if (!contracts.ContainsKey(contract.IDNumber))
+        {
+            contracts.Remove(contract.IDNumber);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
+
+    void DeleteContract(int contractId)
+    {
+        if (contracts.ContainsKey(contractId))
+        {
+            contracts.Remove(contractId);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
+
+    void AddPlayer(Player player)
+    {
+        if (!players.ContainsKey(player.IDNumber))
+        {
+            players.Add(player.IDNumber, player);
+        }
+        else
+        {
+            throw new AlreadyExistsInCollectionException();
+        }
+    }
+
+    void DeletePlayer(Player player)
+    {
+        if (players.ContainsKey(player.IDNumber))
+        {
+            players.Remove(player.IDNumber);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
+
+    void DeletePlayer(int playerId)
+    {
+        if (players.ContainsKey(playerId))
+        {
+            players.Remove(playerId);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
+
+    void AddManager(Manager manager)
+    {
+        if (managers.ContainsKey(manager.IDNumber))
+        {
+            managers.Add(manager.IDNumber, manager);
+        }
+        else
+        {
+            throw new AlreadyExistsInCollectionException();
+        }
+    }
+    void DeleteManager(Manager manager)
+    {
+        if (managers.ContainsKey(manager.IDNumber))
+        {
+            managers.Remove(manager.IDNumber);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
+
+    void DeleteManager(int managerId)
+    {
+        if (managers.ContainsKey(managerId))
+        {
+            managers.Remove(managerId);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
 
 
     void DateProgress()
     {
         nowDate++;
-        Team a = new();
     }
 }

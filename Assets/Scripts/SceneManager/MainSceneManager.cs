@@ -5,7 +5,7 @@ public class MainSceneManager : MonoBehaviour
 {
     void GameStart()
     {
-        SceneManager.LoadScene("PlayerSelectScene");
+        SceneManager.LoadScene("NewGameScene");
     }
 
     void GameExit()
