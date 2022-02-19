@@ -36,7 +36,7 @@ public class GameManager
     public Dictionary<int, Team> Teams => teams;
     #endregion Properties
 
-    void AddContract(Contract contract)
+    public void AddContract(Contract contract)
     {
         if (!contracts.ContainsKey(contract.IDNumber))
         {
@@ -48,7 +48,7 @@ public class GameManager
         }
     }
 
-    void DeleteContract(Contract contract)
+    public void DeleteContract(Contract contract)
     {
         if (!contracts.ContainsKey(contract.IDNumber))
         {
@@ -60,7 +60,7 @@ public class GameManager
         }
     }
 
-    void DeleteContract(int contractId)
+    public void DeleteContract(int contractId)
     {
         if (contracts.ContainsKey(contractId))
         {
@@ -72,7 +72,7 @@ public class GameManager
         }
     }
 
-    void AddPlayer(Player player)
+    public void AddPlayer(Player player)
     {
         if (!players.ContainsKey(player.IDNumber))
         {
@@ -84,7 +84,7 @@ public class GameManager
         }
     }
 
-    void DeletePlayer(Player player)
+    public void DeletePlayer(Player player)
     {
         if (players.ContainsKey(player.IDNumber))
         {
@@ -96,7 +96,7 @@ public class GameManager
         }
     }
 
-    void DeletePlayer(int playerId)
+    public void DeletePlayer(int playerId)
     {
         if (players.ContainsKey(playerId))
         {
@@ -108,7 +108,7 @@ public class GameManager
         }
     }
 
-    void AddManager(Manager manager)
+    public void AddManager(Manager manager)
     {
         if (managers.ContainsKey(manager.IDNumber))
         {
@@ -119,7 +119,7 @@ public class GameManager
             throw new AlreadyExistsInCollectionException();
         }
     }
-    void DeleteManager(Manager manager)
+    public void DeleteManager(Manager manager)
     {
         if (managers.ContainsKey(manager.IDNumber))
         {
@@ -131,7 +131,7 @@ public class GameManager
         }
     }
 
-    void DeleteManager(int managerId)
+    public void DeleteManager(int managerId)
     {
         if (managers.ContainsKey(managerId))
         {
@@ -144,7 +144,7 @@ public class GameManager
     }
 
 
-    void DateProgress()
+    public void DateProgress()
     {
         nowDate++;
     }
