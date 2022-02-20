@@ -5,17 +5,17 @@ using System.Text.RegularExpressions;
 
 public class NewGameSceneManager : MonoBehaviour
 {
-    [Header("°¨µ¶ »ý¼ºÃ¢")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢")]
     [SerializeField] GameObject MakingManagerWindow;
     [SerializeField] TMP_InputField userNameInputField;
     [SerializeField] TextMeshProUGUI userNameText;
 
-    [Header("ÆÀ »ý¼ºÃ¢")]
+    [Header("ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢")]
     [SerializeField] GameObject MakingTeamWindow;
     [SerializeField] TMP_InputField teamNameInputField;
     [SerializeField] TextMeshProUGUI teamNameText;
 
-    [Header("¼±¼ö ¼±ÅÃÃ¢")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢")]
     [SerializeField] GameObject SelectPlayerWindow;
 
     Manager user;
@@ -28,10 +28,10 @@ public class NewGameSceneManager : MonoBehaviour
         userName = userName.Substring(0, userName.Length - 1);
 
         if (userName.Length < 1) return;
-        
+
         user = Maker.MakeManager(userName);
         GameManager.Instance.AddManager(user);
-        
+
         MakingManagerWindow.SetActive(false);
         MakingTeamWindow.SetActive(true);
     }
@@ -52,9 +52,9 @@ public class NewGameSceneManager : MonoBehaviour
 
     public void MakeRandomPlayers()
     {
-        players[0] = Maker.MakePlayer("±èÃ·Áö");
-        players[1] = Maker.MakePlayer("¹Ú¹®¼ö");
-        players[2] = Maker.MakePlayer("´Òµå·°¸¸");
+        players[0] = Maker.MakePlayer("ï¿½ï¿½Ã·ï¿½ï¿½");
+        players[1] = Maker.MakePlayer("ï¿½Ú¹ï¿½ï¿½ï¿½");
+        players[2] = Maker.MakePlayer("ï¿½Òµå·°ï¿½ï¿½");
     }
 
     private void OnGUI()
@@ -62,7 +62,7 @@ public class NewGameSceneManager : MonoBehaviour
         userNameInputField.characterLimit = 10;
         teamNameInputField.characterLimit = 10;
 
-        userNameInputField.onValueChanged.AddListener((c) => userNameInputField.text = Regex.Replace(c, @"[^0-9a-zA-Z°¡-ÆR]", ""));
-        teamNameInputField.onValueChanged.AddListener((c) => teamNameInputField.text = Regex.Replace(c, @"[^0-9a-zA-Z°¡-ÆR]", ""));
+        userNameInputField.onValueChanged.AddListener((c) => userNameInputField.text = Regex.Replace(c, @"[^0-9a-zA-Zï¿½ï¿½-ï¿½R]", ""));
+        teamNameInputField.onValueChanged.AddListener((c) => teamNameInputField.text = Regex.Replace(c, @"[^0-9a-zA-Zï¿½ï¿½-ï¿½R]", ""));
     }
 }
