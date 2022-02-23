@@ -19,6 +19,11 @@ public class GameManager
     #endregion Singleton
 
     #region Variables
+    public int nextPlayerId = 0;
+    public int nextManagerId = 0;
+    public int nextTeamId = 0;
+    public int nextContractId = 0;
+
     Date nowDate = new(2022, 1, 1);
     
     Dictionary<int, Contract> contracts = new();
