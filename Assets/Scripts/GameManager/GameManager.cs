@@ -41,6 +41,24 @@ public class GameManager
     public Dictionary<int, Team> Teams => teams;
     #endregion Properties
 
+    /// <summary>
+    /// Initialize GameManager for New Game.
+    /// </summary>
+    public void Initialize()
+    {
+        nextPlayerId = 0;
+        nextManagerId = 0;
+        nextTeamId = 0;
+        nextContractId = 0;
+
+        nowDate = new(2022, 1, 1);
+
+        Players.Clear();
+        Teams.Clear();
+        Contracts.Clear();
+        Managers.Clear();
+    }
+
     public void AddContract(Contract contract)
     {
         if (!contracts.ContainsKey(contract.IDNumber))

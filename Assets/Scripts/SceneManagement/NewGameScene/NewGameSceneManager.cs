@@ -48,10 +48,7 @@ public class NewGameSceneManager : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.Players.Clear();
-        GameManager.Instance.Teams.Clear();
-        GameManager.Instance.Contracts.Clear();
-        GameManager.Instance.Managers.Clear();
+        GameManager.Instance.Initialize();
     }
 
     public void MakeUserAndMakingTeamWindowActive()
