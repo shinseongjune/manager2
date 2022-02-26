@@ -11,7 +11,7 @@ public class MyPlayersListItemClickHandler : MonoBehaviour, IPointerEnterHandler
     Image backgroundImage;
     Transform playerPopUpWindow;
 
-    private void Start()
+    private void Awake()
     {
         backgroundImage = GetComponent<Image>();
         playerPopUpWindow = GameObject.Find("PopUps").transform.Find("PlayerPopUpWindow");
