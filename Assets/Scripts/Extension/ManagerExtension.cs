@@ -5,7 +5,7 @@ public static class ManagerExtension
         manager.Name = name;
     }
 
-    public static void SetTeam(this Manager manager, Team team)
+    public static void SetTeam(this Manager manager, ref Team team)
     {
         if (GameManager.Instance.Teams.ContainsKey(team.IDNumber))
         {

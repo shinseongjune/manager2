@@ -5,7 +5,7 @@ using System;
 public class GameManager
 {
     #region Singleton
-    private static readonly Lazy<GameManager> _instance = new Lazy<GameManager>(() => new GameManager());
+    private static readonly Lazy<GameManager> _instance = new(() => new GameManager());
 
     public static GameManager Instance
     {
@@ -26,10 +26,10 @@ public class GameManager
 
     Date nowDate = new(2022, 1, 1);
     
-    Dictionary<int, Contract> contracts = new();
-    Dictionary<int, Player> players = new();
-    Dictionary<int, Manager> managers = new();
-    Dictionary<int, Team> teams = new();
+    readonly Dictionary<int, Contract> contracts = new();
+    readonly Dictionary<int, Player> players = new();
+    readonly Dictionary<int, Manager> managers = new();
+    readonly Dictionary<int, Team> teams = new();
     #endregion Variables
 
     #region Properties

@@ -1,11 +1,11 @@
 public class Contract
 {
-    int idNumber;
-    int team;
-    int player;
+    readonly int idNumber;
+    readonly int team;
+    readonly int player;
     
     int remainingPeriod;
-    int salery;
+    readonly int salery;
 
     public int IDNumber => idNumber;
     public int Team => team;

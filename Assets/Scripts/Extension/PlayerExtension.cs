@@ -10,7 +10,7 @@ public static class PlayerExtension
         player.Age++;
     }
 
-    public static void SetTeam(this Player player, Team team)
+    public static void SetTeam(this Player player, ref Team team)
     {
         if (GameManager.Instance.Teams.ContainsKey(team.IDNumber))
         {
@@ -34,7 +34,7 @@ public static class PlayerExtension
         }
     }
 
-    public static void AddContract(this Player player, Contract contract)
+    public static void AddContract(this Player player, ref Contract contract)
     {
         if (GameManager.Instance.Contracts.ContainsKey(contract.IDNumber))
         {
@@ -72,7 +72,7 @@ public static class PlayerExtension
         }
     }
 
-    public static void RemoveContract(this Player player, Contract contract)
+    public static void RemoveContract(this Player player, ref Contract contract)
     {
         if (GameManager.Instance.Contracts.ContainsKey(contract.IDNumber) && player.Contract.Contains(contract.IDNumber))
         {

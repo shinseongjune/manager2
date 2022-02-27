@@ -1,6 +1,6 @@
 public class Manager
 {
-    int idNumber;
+    readonly int idNumber;
     string name;
     int team;
 

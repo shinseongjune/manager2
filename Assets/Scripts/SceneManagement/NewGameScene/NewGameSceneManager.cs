@@ -41,9 +41,14 @@ public class NewGameSceneManager : MonoBehaviour
     [SerializeField] Transform playerCard2;
     [SerializeField] Transform playerCard3;
 
-    Manager user;
-    Team team;
-    Player[] players = new Player[3];
+    readonly Player[] players = new Player[3];
+    const int INDEPENDENT_PLAYER_COUNT = 100;
+
+    readonly string[] teamNamePrefix = { "대구", "서울", "인천", "드렁큰", "스칸디나비안" };
+    readonly string[] teamNameSuffix = { "라이온즈", "베어스", "타이거즈", "공벌레단", "로켓단" };
+    readonly string[] playerNamePrefix = { "김", "이", "박", "오", "제갈", "탁", "홍", "존", "조나", "송", "임", "손", "닐" };
+    readonly string[] playerNameSuffix = { "태수", "차돈", "홍수", "헨리", "공명", "탁", "제임스", "우현", "종엽", "인석", "전형", "첨지", "문수", "드럭만" };
+
     #endregion Variables
 
     private void Start()
@@ -54,11 +59,11 @@ public class NewGameSceneManager : MonoBehaviour
     public void MakeUserAndMakingTeamWindowActive()
     {
         string userName = userNameText.text;
-        userName = userName.Substring(0, userName.Length - 1);
+        userName = userName[0..^1];
 
         if (userName.Length < 1) return;
         
-        user = Maker.MakeManager(userName);
+        Maker.MakeManager(userName);
         
         makingManagerWindow.SetActive(false);
         makingTeamWindow.SetActive(true);
@@ -67,11 +72,11 @@ public class NewGameSceneManager : MonoBehaviour
     public void MakeTeamAndSelectPlayerWindowActive(int selectedPlayerId)
     {
         string teamName = teamNameText.text;
-        teamName = teamName.Substring(0, teamName.Length - 1);
+        teamName = teamName[0..^1];
 
         if (teamName.Length < 1) return;
 
-        team = Maker.MakeTeam(teamName);
+        Maker.MakeTeam(teamName);
 
         makingTeamWindow.SetActive(false);
         selectPlayerWindow.SetActive(true);
@@ -80,18 +85,23 @@ public class NewGameSceneManager : MonoBehaviour
 
     public void MakeRandomPlayers()
     {
-        players[0] = Maker.MakePlayer("김첨지");
-        players[1] = Maker.MakePlayer("박문수");
-        players[2] = Maker.MakePlayer("닐드럭만");
+        string composedPlayerName = playerNamePrefix[Random.Range(0, playerNamePrefix.Length)] + playerNameSuffix[Random.Range(0, playerNameSuffix.Length)];
+        players[0] = Maker.MakePlayer(composedPlayerName);
+        composedPlayerName = playerNamePrefix[Random.Range(0, playerNamePrefix.Length)] + playerNameSuffix[Random.Range(0, playerNameSuffix.Length)];
+        players[1] = Maker.MakePlayer(composedPlayerName);
+        composedPlayerName = playerNamePrefix[Random.Range(0, playerNamePrefix.Length)] + playerNameSuffix[Random.Range(0, playerNameSuffix.Length)];
+        players[2] = Maker.MakePlayer(composedPlayerName);
     }
 
     public void RefreshSelectPlayerWindow()
     {
-        if(team.Players.Count >= 6)
+        if(GameManager.Instance.Teams[0].Players.Count >= 6)
         {
             selectPlayerWindow.SetActive(false);
 
-            SceneManager.LoadScene("OuterGameScene");
+            MakeExtraTeams();
+            MakeIndependentPlayers();
+            LoadOuterGameScene();
         }
         else
         {
@@ -108,6 +118,47 @@ public class NewGameSceneManager : MonoBehaviour
             playerCard2.GetComponent<PlayerCardClickHandler>().player = players[1];
             playerCard3.GetComponent<PlayerCardClickHandler>().player = players[2];
         }
+    }
+
+    void MakeExtraTeams()
+    {
+        List<string> composedTeamNames = new();
+
+        for (int i = 0; i < 8; i++)
+        {
+            string composedTeamName = teamNamePrefix[Random.Range(0, teamNamePrefix.Length)] + teamNameSuffix[Random.Range(0, teamNameSuffix.Length)];
+            if (composedTeamNames.Contains(composedTeamName))
+            {
+                i--;
+                continue;
+            }
+            composedTeamNames.Add(composedTeamName);
+
+            Team team = Maker.MakeTeam(composedTeamName);
+            int playerCount = Random.Range(6, 9);
+            for (int j = 0; j < playerCount; j++) {
+                string composedPlayerName = playerNamePrefix[Random.Range(0, playerNamePrefix.Length)] + playerNameSuffix[Random.Range(0, playerNameSuffix.Length)];
+                Player player = Maker.MakePlayer(composedPlayerName);
+                Contract contract = Maker.MakeContract(team.IDNumber, player.IDNumber, new(Random.Range(2024, 2028), 12, 4), Random.Range(300, 600));
+                player.AddContract(contract.IDNumber);
+                team.AddContract(contract.IDNumber);
+                team.AddPlayer(player.IDNumber);
+            }
+        }
+    }
+
+    void MakeIndependentPlayers()
+    {
+        for(int i = 0; i < INDEPENDENT_PLAYER_COUNT; i++)
+        {
+            string composedPlayerName = playerNamePrefix[Random.Range(0, playerNamePrefix.Length)] + playerNameSuffix[Random.Range(0, playerNameSuffix.Length)];
+            Maker.MakePlayer(composedPlayerName);
+        }
+    }
+
+    void LoadOuterGameScene()
+    {
+        SceneManager.LoadScene("OuterGameScene");
     }
 
     private void OnGUI()

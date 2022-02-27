@@ -102,13 +102,18 @@ public class Date
 
     public override bool Equals(object obj)
     {
-        if (obj is Date)
+        if (obj is Date date)
         {
-            return this == (Date)obj;
+            return this == date;
         }
         else
         {
             return false;
         }
+    }
+
+    public override string ToString()
+    {
+        return year + "년 " + month + "월 " + quarter + "분기";
     }
 }

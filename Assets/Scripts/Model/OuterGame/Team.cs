@@ -2,13 +2,13 @@ using System.Collections.Generic;
 
 public class Team
 {
-    int idNumber;
+    readonly int idNumber;
 
     string name;
     int money = 50000;
     int manager = -1;
-    List<int> players = new();
-    List<int> contracts = new();
+    readonly List<int> players = new();
+    readonly List<int> contracts = new();
 
     public int IDNumber => idNumber;
 
