@@ -34,6 +34,11 @@ public static class PlayerExtension
         }
     }
 
+    public static void RemoveTeam(this Player player)
+    {
+        player.Team = -1;
+    }
+
     public static void AddContract(this Player player, ref Contract contract)
     {
         if (GameManager.Instance.Contracts.ContainsKey(contract.IDNumber))

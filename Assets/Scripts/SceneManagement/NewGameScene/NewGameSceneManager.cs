@@ -51,10 +51,21 @@ public class NewGameSceneManager : MonoBehaviour
 
     #endregion Variables
 
+    #region UnityFunctions
     private void Start()
     {
         GameManager.Instance.Initialize();
     }
+
+    private void OnGUI()
+    {
+        userNameInputField.characterLimit = 5;
+        teamNameInputField.characterLimit = 8;
+
+        userNameInputField.onValueChanged.AddListener((c) => userNameInputField.text = Regex.Replace(c, @"[^0-9a-zA-Z°¡-ÆR]", ""));
+        teamNameInputField.onValueChanged.AddListener((c) => teamNameInputField.text = Regex.Replace(c, @"[^0-9a-zA-Z°¡-ÆR]", ""));
+    }
+    #endregion UnityFunctions
 
     public void MakeUserAndMakingTeamWindowActive()
     {
@@ -159,14 +170,5 @@ public class NewGameSceneManager : MonoBehaviour
     void LoadOuterGameScene()
     {
         SceneManager.LoadScene("OuterGameScene");
-    }
-
-    private void OnGUI()
-    {
-        userNameInputField.characterLimit = 5;
-        teamNameInputField.characterLimit = 8;
-
-        userNameInputField.onValueChanged.AddListener((c) => userNameInputField.text = Regex.Replace(c, @"[^0-9a-zA-Z°¡-ÆR]", ""));
-        teamNameInputField.onValueChanged.AddListener((c) => teamNameInputField.text = Regex.Replace(c, @"[^0-9a-zA-Z°¡-ÆR]", ""));
     }
 }

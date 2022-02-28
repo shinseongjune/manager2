@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - ScoutWindow
+  - MyPlayersListWindow
+  - TeamListWindow
   layers:
   - Default
   - TransparentFX

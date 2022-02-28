@@ -19,10 +19,10 @@ public class GameManager
     #endregion Singleton
 
     #region Variables
-    public int nextPlayerId = 0;
-    public int nextManagerId = 0;
-    public int nextTeamId = 0;
-    public int nextContractId = 0;
+    private int nextPlayerId = 0;
+    private int nextManagerId = 0;
+    private int nextTeamId = 0;
+    private int nextContractId = 0;
 
     Date nowDate = new(2022, 1, 1);
     
@@ -39,6 +39,11 @@ public class GameManager
     public Dictionary<int, Player> Players => players;
     public Dictionary<int, Manager> Managers => managers;
     public Dictionary<int, Team> Teams => teams;
+
+    public int NextPlayerId { get => nextPlayerId; set => nextPlayerId = value; }
+    public int NextManagerId { get => nextManagerId; set => nextManagerId = value; }
+    public int NextTeamId { get => nextTeamId; set => nextTeamId = value; }
+    public int NextContractId { get => nextContractId; set => nextContractId = value; }
     #endregion Properties
 
     /// <summary>
@@ -46,10 +51,10 @@ public class GameManager
     /// </summary>
     public void Initialize()
     {
-        nextPlayerId = 0;
-        nextManagerId = 0;
-        nextTeamId = 0;
-        nextContractId = 0;
+        NextPlayerId = 0;
+        NextManagerId = 0;
+        NextTeamId = 0;
+        NextContractId = 0;
 
         nowDate = new(2022, 1, 1);
 
