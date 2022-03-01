@@ -39,4 +39,11 @@ public static class Maker
         GameManager.Instance.AddContract(contract);
         return contract;
     }
+
+    public static Match MakeMatch(int team1, int team2, Date dDay, LeagueName eLeague)
+    {
+        Match match = new(GameManager.Instance.NextMatchId, team1, team2, dDay, eLeague);
+        GameManager.Instance.AddMatch(match);
+        return match;
+    }
 }

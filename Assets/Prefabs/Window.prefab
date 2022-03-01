@@ -69,7 +69,7 @@ MonoBehaviour:
   m_text: X
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 046b380cdf8bc8c4daa9966617d81373, type: 2}
-  m_sharedMaterial: {fileID: -7274981956466153145, guid: 046b380cdf8bc8c4daa9966617d81373, type: 2}
+  m_sharedMaterial: {fileID: -1017352791191761331, guid: 046b380cdf8bc8c4daa9966617d81373, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -166,10 +166,10 @@ RectTransform:
   m_Father: {fileID: 9047323279570530711}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -60}
+  m_SizeDelta: {x: -40, y: -160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8986373015072357759
 GameObject:
@@ -294,9 +294,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8911007732278765543}
-        m_TargetAssemblyTypeName: UnityEngine.Component, UnityEngine
-        m_MethodName: SendMessage
-        m_Mode: 5
+        m_TargetAssemblyTypeName: WindowClose, Assembly-CSharp
+        m_MethodName: CloseTheWindow
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -706,7 +706,7 @@ MonoBehaviour:
   m_text: "\uC81C\uBAA9"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 046b380cdf8bc8c4daa9966617d81373, type: 2}
-  m_sharedMaterial: {fileID: -7274981956466153145, guid: 046b380cdf8bc8c4daa9966617d81373, type: 2}
+  m_sharedMaterial: {fileID: -1017352791191761331, guid: 046b380cdf8bc8c4daa9966617d81373, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

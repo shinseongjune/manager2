@@ -49,6 +49,7 @@ public class NewGameSceneManager : MonoBehaviour
     readonly string[] playerNamePrefix = { "김", "이", "박", "오", "제갈", "탁", "홍", "존", "조나", "송", "임", "손", "닐" };
     readonly string[] playerNameSuffix = { "태수", "차돈", "홍수", "헨리", "공명", "탁", "제임스", "우현", "종엽", "인석", "전형", "첨지", "문수", "드럭만" };
 
+    readonly List<string> composedTeamNames = new();
     #endregion Variables
 
     #region UnityFunctions
@@ -87,6 +88,7 @@ public class NewGameSceneManager : MonoBehaviour
 
         if (teamName.Length < 1) return;
 
+        composedTeamNames.Add(teamName);
         Maker.MakeTeam(teamName);
 
         makingTeamWindow.SetActive(false);
@@ -133,8 +135,6 @@ public class NewGameSceneManager : MonoBehaviour
 
     void MakeExtraTeams()
     {
-        List<string> composedTeamNames = new();
-
         for (int i = 0; i < 8; i++)
         {
             string composedTeamName = teamNamePrefix[Random.Range(0, teamNamePrefix.Length)] + teamNameSuffix[Random.Range(0, teamNameSuffix.Length)];
@@ -146,6 +146,12 @@ public class NewGameSceneManager : MonoBehaviour
             composedTeamNames.Add(composedTeamName);
 
             Team team = Maker.MakeTeam(composedTeamName);
+
+            string composedManagerName = playerNamePrefix[Random.Range(0, playerNamePrefix.Length)] + playerNameSuffix[Random.Range(0, playerNameSuffix.Length)];
+            Manager manager = Maker.MakeManager(composedManagerName);
+            team.EmployManager(manager.IDNumber);
+            manager.SetTeam(team.IDNumber);
+
             int playerCount = Random.Range(6, 9);
             for (int j = 0; j < playerCount; j++) {
                 string composedPlayerName = playerNamePrefix[Random.Range(0, playerNamePrefix.Length)] + playerNameSuffix[Random.Range(0, playerNameSuffix.Length)];

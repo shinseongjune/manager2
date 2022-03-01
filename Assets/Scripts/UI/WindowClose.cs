@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WindowClose : MonoBehaviour
 {
-    void CloseTheWindow()
+    public void CloseTheWindow()
     {
         gameObject.SetActive(false);
     }

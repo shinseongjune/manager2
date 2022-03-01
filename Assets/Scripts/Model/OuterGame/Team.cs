@@ -9,6 +9,7 @@ public class Team
     int manager = -1;
     readonly List<int> players = new();
     readonly List<int> contracts = new();
+    readonly List<int> matches = new();
 
     public int IDNumber => idNumber;
 
@@ -29,6 +30,7 @@ public class Team
     }
     public List<int> Players => players;
     public List<int> Contracts => contracts;
+    public List<int> Matches => matches;
 
     public Team(int id, string name)
     {

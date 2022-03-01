@@ -23,6 +23,7 @@ public class GameManager
     private int nextManagerId = 0;
     private int nextTeamId = 0;
     private int nextContractId = 0;
+    private int nextMatchId = 0;
 
     Date nowDate = new(2022, 1, 1);
     
@@ -30,6 +31,7 @@ public class GameManager
     readonly Dictionary<int, Player> players = new();
     readonly Dictionary<int, Manager> managers = new();
     readonly Dictionary<int, Team> teams = new();
+    readonly Dictionary<int, Match> matches = new();
     #endregion Variables
 
     #region Properties
@@ -39,11 +41,13 @@ public class GameManager
     public Dictionary<int, Player> Players => players;
     public Dictionary<int, Manager> Managers => managers;
     public Dictionary<int, Team> Teams => teams;
+    public Dictionary<int, Match> Matches => matches;
 
     public int NextPlayerId { get => nextPlayerId; set => nextPlayerId = value; }
     public int NextManagerId { get => nextManagerId; set => nextManagerId = value; }
     public int NextTeamId { get => nextTeamId; set => nextTeamId = value; }
     public int NextContractId { get => nextContractId; set => nextContractId = value; }
+    public int NextMatchId { get => nextMatchId; set => nextMatchId = value; }
     #endregion Properties
 
     /// <summary>
@@ -55,6 +59,7 @@ public class GameManager
         NextManagerId = 0;
         NextTeamId = 0;
         NextContractId = 0;
+        NextMatchId = 0;
 
         nowDate = new(2022, 1, 1);
 
@@ -200,6 +205,42 @@ public class GameManager
         if (teams.ContainsKey(teamId))
         {
             teams.Remove(teamId);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
+
+    public void AddMatch(Match match)
+    {
+        if (!matches.ContainsKey(match.IDNumber))
+        {
+            matches.Add(match.IDNumber, match);
+        }
+        else
+        {
+            throw new AlreadyExistsInCollectionException();
+        }
+    }
+
+    public void DeleteMatch(int matchId)
+    {
+        if (matches.ContainsKey(matchId))
+        {
+            matches.Remove(matchId);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
+
+    public void DeleteMatch(Match match)
+    {
+        if (matches.ContainsKey(match.IDNumber))
+        {
+            matches.Remove(match.IDNumber);
         }
         else
         {

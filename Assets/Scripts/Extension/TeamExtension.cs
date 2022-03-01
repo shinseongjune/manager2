@@ -127,6 +127,10 @@ public static class TeamExtension
         {
             team.Contracts.Remove(contract.IDNumber);
         }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
     }
 
     public static void RemoveContract(this Team team, int contractId)
@@ -134,6 +138,58 @@ public static class TeamExtension
         if (team.Contracts.Contains(contractId))
         {
             team.Contracts.Remove(contractId);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
+
+    public static void AddMatch(this Team team, ref Match match)
+    {
+        if (!team.Matches.Contains(match.IDNumber))
+        {
+            team.Matches.Add(match.IDNumber);
+        }
+        else
+        {
+            throw new AlreadyExistsInCollectionException();
+        }
+    }
+
+    public static void AddMatch(this Team team, int matchId)
+    {
+        if (!team.Matches.Contains(matchId))
+        {
+            team.Matches.Add(matchId);
+        }
+        else
+        {
+            throw new AlreadyExistsInCollectionException();
+        }
+    }
+
+    public static void RemoveMatch(this Team team, ref Match match)
+    {
+        if (team.Matches.Contains(match.IDNumber))
+        {
+            team.Matches.Remove(match.IDNumber);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
+
+    public static void RemoveMatch(this Team team, int matchId)
+    {
+        if (team.Matches.Contains(matchId))
+        {
+            team.Matches.Remove(matchId);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
         }
     }
 }

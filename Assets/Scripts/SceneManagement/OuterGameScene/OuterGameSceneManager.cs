@@ -21,7 +21,6 @@ public class OuterGameSceneManager : MonoBehaviour
     [Header("Upper Bar")]
     [SerializeField] TextMeshProUGUI upperBarTeamNameText;
     [SerializeField] TextMeshProUGUI upperBarDateText;
-    [SerializeField] Button upperBarMyTeamButton;
 
     [Header("선수단")]
     [SerializeField] Transform myPlayersListWindow;
@@ -30,7 +29,8 @@ public class OuterGameSceneManager : MonoBehaviour
 
     [Header("선수 영입")]
     [SerializeField] Transform scoutWindow;
-    [SerializeField] TMP_InputField scoutWindowInputField;
+    [SerializeField] GameObject scoutItemPrefab;
+    [SerializeField] TMP_InputField scoutWindowPagingInputField;
     [SerializeField] TextMeshProUGUI scoutWindowMaxPageText;
     int scoutWindowNowPage = 1;
     int scoutWindowMaxPage = 1;
@@ -40,6 +40,9 @@ public class OuterGameSceneManager : MonoBehaviour
     [Header("팀 목록")]
     [SerializeField] Transform teamListWindow;
     [SerializeField] GameObject teamListItemPrefab;
+
+    [Header("리그")]
+    [SerializeField] Transform leagueWindow;
     #endregion Variables
 
     #region UnityFunctions
@@ -115,9 +118,10 @@ public class OuterGameSceneManager : MonoBehaviour
 
     void CloseAllWindow()
     {
-        myPlayersListWindow?.gameObject?.SetActive(false);
-        scoutWindow?.gameObject?.SetActive(false);
-        teamListWindow?.gameObject?.SetActive(false);
+        myPlayersListWindow.gameObject.SetActive(false);
+        scoutWindow.gameObject.SetActive(false);
+        teamListWindow.gameObject.SetActive(false);
+        leagueWindow.gameObject.SetActive(false);
     }
     #endregion PageReload
 
@@ -229,38 +233,44 @@ public class OuterGameSceneManager : MonoBehaviour
         {
             Player player = independentPlayers[i];
 
-            GameObject item = Instantiate(myPlayersListItemPrefab);
-            item.GetComponent<MyPlayersListItemClickHandler>().player = player;
+            GameObject item = Instantiate(scoutItemPrefab);
+            item.GetComponent<ScoutItemClickHandler>().player = player;
 
             Transform itemTransform = item.transform;
             itemTransform.SetParent(scoutWindow);
 
             //선수 정보 기입
             itemTransform.Find("PlayerNameText").GetComponent<TextMeshProUGUI>().text = player.Name;
-            itemTransform.Find("PlayerAgeText").GetComponent<TextMeshProUGUI>().text = player.Age + "세";
 
             //아이템 위치 조정
             itemTransform.GetComponent<RectTransform>().anchoredPosition = new(15 + (15 + 390) * (i % 3), -15 - (15 + 168) * (i % 12 / 3));
         }
-        scoutWindowInputField.text = scoutWindowNowPage.ToString();
-        scoutWindowInputField.placeholder.GetComponent<TextMeshProUGUI>().text = scoutWindowNowPage.ToString();
+        scoutWindowPagingInputField.text = scoutWindowNowPage.ToString();
+        scoutWindowPagingInputField.placeholder.GetComponent<TextMeshProUGUI>().text = scoutWindowNowPage.ToString();
     }
 
     public void ScoutWindowPageChangeByInputField()
     {
-        scoutWindowNowPage = int.Parse(scoutWindowInputField.text);
-        ScoutWindowNowPageClearing();
-        scoutWindowInputField.text = scoutWindowNowPage.ToString();
-        scoutWindowInputField.placeholder.GetComponent<TextMeshProUGUI>().text = scoutWindowNowPage.ToString();
-        RefreshScoutWindow();
+        int temp = scoutWindowNowPage;
+        if (int.TryParse(scoutWindowPagingInputField.text, out scoutWindowNowPage))
+        {
+            ScoutWindowNowPageClearing();
+            scoutWindowPagingInputField.text = scoutWindowNowPage.ToString();
+            scoutWindowPagingInputField.placeholder.GetComponent<TextMeshProUGUI>().text = scoutWindowNowPage.ToString();
+            RefreshScoutWindow();
+        }
+        else
+        {
+            scoutWindowNowPage = temp;
+        }
     }
 
     public void ScoutWindowPageChangeByButton(int i)
     {
         scoutWindowNowPage += i; // PrevButton => i = -1, NextButton => i = 1
         ScoutWindowNowPageClearing();
-        scoutWindowInputField.text = scoutWindowNowPage.ToString();
-        scoutWindowInputField.placeholder.GetComponent<TextMeshProUGUI>().text = scoutWindowNowPage.ToString();
+        scoutWindowPagingInputField.text = scoutWindowNowPage.ToString();
+        scoutWindowPagingInputField.placeholder.GetComponent<TextMeshProUGUI>().text = scoutWindowNowPage.ToString();
         RefreshScoutWindow();
     }
 
@@ -271,6 +281,7 @@ public class OuterGameSceneManager : MonoBehaviour
     }
     #endregion ScoutWindow
 
+    #region TeamList
     public void ActivateTeamListWindow()
     {
         CloseAllWindow();
@@ -301,4 +312,14 @@ public class OuterGameSceneManager : MonoBehaviour
             Destroy(t.gameObject);
         }
     }
+    #endregion TeamList
+
+    #region League
+    public void ActivateLeagueWindow()
+    {
+        CloseAllWindow();
+
+        leagueWindow.gameObject.SetActive(true);
+    }
+    #endregion League
 }
