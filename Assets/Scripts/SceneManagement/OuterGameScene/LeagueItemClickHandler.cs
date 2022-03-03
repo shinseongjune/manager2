@@ -7,7 +7,7 @@ using TMPro;
 
 public class LeagueItemClickHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    public LeagueName league;
+    public League league;
     Image backgroundImage;
     Transform leaguePopUpWindow;
 
@@ -30,17 +30,6 @@ public class LeagueItemClickHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     public void OnPointerClick(PointerEventData eventData)
     {
         leaguePopUpWindow.gameObject.SetActive(true);
-        switch (league)
-        {
-            case LeagueName.Champions:
-                leaguePopUpWindow.Find("Title").Find("TitleText").GetComponent<TextMeshProUGUI>().text = "Ã¨ÇÇ¾ð½º ¸®±×";
-                break;
-            case LeagueName.GBPro:
-                leaguePopUpWindow.Find("Title").Find("TitleText").GetComponent<TextMeshProUGUI>().text = "²±ÃæÀºÇà¹è ÇÁ·Î¸®±×";
-                break;
-            case LeagueName.ChallengersCup:
-                leaguePopUpWindow.Find("Title").Find("TitleText").GetComponent<TextMeshProUGUI>().text = "Ã§¸°Àú½º ÄÅ";
-                break;
-        }
+        leaguePopUpWindow.Find("Title").Find("TitleText").GetComponent<TextMeshProUGUI>().text = league.Name;
     }
 }

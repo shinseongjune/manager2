@@ -48,8 +48,11 @@ public class NewGameSceneManager : MonoBehaviour
     readonly string[] teamNameSuffix = { "라이온즈", "베어스", "타이거즈", "공벌레단", "로켓단" };
     readonly string[] playerNamePrefix = { "김", "이", "박", "오", "제갈", "탁", "홍", "존", "조나", "송", "임", "손", "닐" };
     readonly string[] playerNameSuffix = { "태수", "차돈", "홍수", "헨리", "공명", "탁", "제임스", "우현", "종엽", "인석", "전형", "첨지", "문수", "드럭만" };
+    readonly string[] leagueNamePrefix = { "GA", "껑충은행배", "우주공항배", "월드와이드", "그랜드", "슈퍼", "서울시장배", "LA", "리얼", "천하제일", "오픈" };
+    readonly string[] leagueNameSuffix = { "프로리그", "코리안컵", "배틀그라운드", "게이머즈 워", "게임짱", "게임리그", "슈퍼스타컵", "프로게임 챌린지", "워 게이밍", "게임 히어로", "파이트리그" };
 
     readonly List<string> composedTeamNames = new();
+    readonly List<string> composedLeagueNames = new();
     #endregion Variables
 
     #region UnityFunctions
@@ -114,6 +117,8 @@ public class NewGameSceneManager : MonoBehaviour
 
             MakeExtraTeams();
             MakeIndependentPlayers();
+            MakeLeagues();
+
             LoadOuterGameScene();
         }
         else
@@ -130,6 +135,34 @@ public class NewGameSceneManager : MonoBehaviour
             playerCard1.GetComponent<PlayerCardClickHandler>().player = players[0];
             playerCard2.GetComponent<PlayerCardClickHandler>().player = players[1];
             playerCard3.GetComponent<PlayerCardClickHandler>().player = players[2];
+        }
+    }
+
+    void MakeLeagues()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            string composedLeagueName = leagueNamePrefix[Random.Range(0, leagueNamePrefix.Length)] + " " + leagueNameSuffix[Random.Range(0, leagueNameSuffix.Length)];
+            if (composedLeagueNames.Contains(composedLeagueName))
+            {
+                i--;
+                continue;
+            }
+            composedLeagueNames.Add(composedLeagueName);
+
+            int entryMin = Random.Range(4, 5);
+            int entryMax = Random.Range(6, 11);
+            int playOffSystem = Random.Range(0, 4);
+            League league = Maker.MakeLeague(composedLeagueName, entryMin, entryMax,  (LeagueSystem)Random.Range(0, 3), (LeagueSystem)playOffSystem, (playOffSystem == 3 ? 0:3));
+            league.StartDate = new(Random.Range(2022, 2024), Random.Range(1, 13), Random.Range(1, 5));
+
+            List<int> tempTeams = new(GameManager.Instance.Teams.Keys);
+            tempTeams.Shuffle();
+            for (int j = 0; j < Random.Range(entryMin, Mathf.Min(entryMax + 1, tempTeams.Count)); j++)
+            {
+                league.Entry.Add(tempTeams[j]);
+            }
+            Maker.MakeAllMatches(league.IDNumber);
         }
     }
 

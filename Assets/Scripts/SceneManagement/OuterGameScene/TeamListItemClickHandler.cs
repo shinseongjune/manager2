@@ -28,5 +28,6 @@ public class TeamListItemClickHandler : MonoBehaviour, IPointerEnterHandler, IPo
     public void OnPointerClick(PointerEventData eventData)
     {
         OuterGameSceneManager.Instance.SetNowTeamAndReload(team.IDNumber);
+        OuterGameSceneManager.Instance.ActivateMyPlayersListWindow();
     }
 }

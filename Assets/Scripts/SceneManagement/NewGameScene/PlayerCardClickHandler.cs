@@ -28,6 +28,6 @@ public class PlayerCardClickHandler : MonoBehaviour, IPointerEnterHandler, IPoin
     {
         GameManager.Instance.Teams[0].AddPlayer(player.IDNumber);
         player.SetTeam(0);
-        NewGameSceneManager.Instance.SendMessage("RefreshSelectPlayerWindow");
+        NewGameSceneManager.Instance.RefreshSelectPlayerWindow();
     }
 }

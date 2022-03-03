@@ -4,6 +4,10 @@ public class Date
     int month;
     int quarter;
 
+    public int Year => year;
+    public int Month => month;
+    public int Quarter => quarter;
+
     public Date(int y, int m, int q)
     {
         if (y <= 0 || m <= 0 || q <= 0)
@@ -13,6 +17,14 @@ public class Date
         year = y;
         month = m;
         quarter = q;
+        ClearingDate();
+    }
+
+    public Date(Date date)
+    {
+        year = date.year;
+        month = date.month;
+        quarter = date.quarter;
         ClearingDate();
     }
 
@@ -38,33 +50,38 @@ public class Date
             year--;
             month = 12;
         }
+        if (year < 0) throw new MinusYearException();
     }
 
     public static Date operator ++(Date date)
     {
-        date.quarter++;
-        date.ClearingDate();
-        return date;
+        Date d = new(date);
+        d.quarter++;
+        d.ClearingDate();
+        return d;
     }
     public static Date operator --(Date date)
     {
-        date.quarter--;
-        date.ClearingDate();
-        return date;
+        Date d = new(date);
+        d.quarter--;
+        d.ClearingDate();
+        return d;
     }
 
     public static Date operator +(Date date, int i)
     {
-        date.quarter += i;
-        date.ClearingDate();
-        return date;
+        Date d = new(date);
+        d.quarter += i;
+        d.ClearingDate();
+        return d;
     }
 
     public static Date operator -(Date date, int i)
     {
-        date.quarter -= i;
-        date.ClearingDate();
-        return date;
+        Date d = new(date);
+        d.quarter -= i;
+        d.ClearingDate();
+        return d;
     }
 
     public static bool operator ==(Date date, Date dDay)
@@ -95,6 +112,34 @@ public class Date
         }
     }
 
+    public static bool operator <(Date date1, Date date2)
+    {
+        date1.ClearingDate();
+        date2.ClearingDate();
+        return date1.GetHashCode() < date2.GetHashCode();
+    }
+
+    public static bool operator >(Date date1, Date date2)
+    {
+        date1.ClearingDate();
+        date2.ClearingDate();
+        return date1.GetHashCode() > date2.GetHashCode();
+    }
+
+    public static bool operator <=(Date date1, Date date2)
+    {
+        date1.ClearingDate();
+        date2.ClearingDate();
+        return date1.GetHashCode() <= date2.GetHashCode();
+    }
+
+    public static bool operator >=(Date date1, Date date2)
+    {
+        date1.ClearingDate();
+        date2.ClearingDate();
+        return date1.GetHashCode() >= date2.GetHashCode();
+    }
+
     public override int GetHashCode()
     {
         return (year - 1) * 48 + (month - 1) * 4 + quarter;
@@ -114,6 +159,6 @@ public class Date
 
     public override string ToString()
     {
-        return year + "년 " + month + "월 " + quarter + "분기";
+        return year + "년" + " " + month + "월" + " " + quarter + "분기";
     }
 }

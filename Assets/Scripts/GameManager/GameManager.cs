@@ -24,6 +24,7 @@ public class GameManager
     private int nextTeamId = 0;
     private int nextContractId = 0;
     private int nextMatchId = 0;
+    private int nextLeagueId = 0;
 
     Date nowDate = new(2022, 1, 1);
     
@@ -32,6 +33,7 @@ public class GameManager
     readonly Dictionary<int, Manager> managers = new();
     readonly Dictionary<int, Team> teams = new();
     readonly Dictionary<int, Match> matches = new();
+    readonly Dictionary<int, League> leagues = new();
     #endregion Variables
 
     #region Properties
@@ -42,12 +44,14 @@ public class GameManager
     public Dictionary<int, Manager> Managers => managers;
     public Dictionary<int, Team> Teams => teams;
     public Dictionary<int, Match> Matches => matches;
+    public Dictionary<int, League> Leagues => leagues;
 
     public int NextPlayerId { get => nextPlayerId; set => nextPlayerId = value; }
     public int NextManagerId { get => nextManagerId; set => nextManagerId = value; }
     public int NextTeamId { get => nextTeamId; set => nextTeamId = value; }
     public int NextContractId { get => nextContractId; set => nextContractId = value; }
     public int NextMatchId { get => nextMatchId; set => nextMatchId = value; }
+    public int NextLeagueId { get => nextLeagueId; set => nextLeagueId = value; }
     #endregion Properties
 
     /// <summary>
@@ -60,6 +64,7 @@ public class GameManager
         NextTeamId = 0;
         NextContractId = 0;
         NextMatchId = 0;
+        NextLeagueId = 0;
 
         nowDate = new(2022, 1, 1);
 
@@ -67,6 +72,7 @@ public class GameManager
         Teams.Clear();
         Contracts.Clear();
         Managers.Clear();
+        Leagues.Clear();
     }
 
     public void AddContract(Contract contract)
@@ -241,6 +247,42 @@ public class GameManager
         if (matches.ContainsKey(match.IDNumber))
         {
             matches.Remove(match.IDNumber);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
+
+    public void AddLeague(League league)
+    {
+        if (!leagues.ContainsKey(league.IDNumber))
+        {
+            leagues.Add(league.IDNumber, league);
+        }
+        else
+        {
+            throw new AlreadyExistsInCollectionException();
+        }
+    }
+
+    public void DeleteLeague(League league)
+    {
+        if (leagues.ContainsKey(league.IDNumber))
+        {
+            leagues.Remove(league.IDNumber);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
+    
+    public void DeleteLeague(int leagueId)
+    {
+        if (leagues.ContainsKey(leagueId))
+        {
+            leagues.Remove(leagueId);
         }
         else
         {

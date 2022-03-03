@@ -1,38 +1,47 @@
-public enum LeagueName
-{
-    Champions,
-    GBPro,
-    ChallengersCup
-}
-
 public class Match
 {
     #region Variables
     readonly int idNumber;
-    readonly int team1;
-    readonly int team2;
+    int team1;
+    int team2;
 
     readonly Date dDay;
 
-    readonly LeagueName eLeague;
+    readonly int league;
     #endregion Variables
 
     #region Properties
     public int IDNumber => idNumber;
-    public int Team1 => team1;
-    public int Team2 => team2;
+    public int Team1
+    {
+        get => team1;
+        set => team1 = value;
+    }
+    public int Team2
+    {
+        get => team2;
+        set => team2 = value;
+    }
 
     public Date DDay => dDay;
 
-    public LeagueName ELeague => eLeague;
+    public int League => league;
     #endregion Properties
 
-    public Match(int idNumber, int team1, int team2, Date dDay, LeagueName eLeague)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="idNumber"></param>
+    /// <param name="team1">-1 = 미정</param>
+    /// <param name="team2">-1 = 미정</param>
+    /// <param name="dDay"></param>
+    /// <param name="eLeague"></param>
+    public Match(int idNumber, int team1, int team2, Date dDay, int league)
     {
         this.idNumber = idNumber;
         this.team1 = team1;
         this.team2 = team2;
         this.dDay = dDay;
-        this.eLeague = eLeague;
+        this.league = league;
     }
 }

@@ -7,6 +7,8 @@ TagManager:
   - ScoutWindow
   - MyPlayersListWindow
   - TeamListWindow
+  - LeagueWindow
+  - CalendarWindow
   layers:
   - Default
   - TransparentFX

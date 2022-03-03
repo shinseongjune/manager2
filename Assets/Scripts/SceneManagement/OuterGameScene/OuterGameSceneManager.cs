@@ -43,6 +43,13 @@ public class OuterGameSceneManager : MonoBehaviour
 
     [Header("리그")]
     [SerializeField] Transform leagueWindow;
+    [SerializeField] GameObject leagueItemPrefab;
+
+    [Header("일정")]
+    [SerializeField] Transform calendarWindow;
+    [SerializeField] GameObject calendarItemPrefab;
+    public int calendarNowYear = GameManager.Instance.NowDate.Year;
+
     #endregion Variables
 
     #region UnityFunctions
@@ -122,6 +129,7 @@ public class OuterGameSceneManager : MonoBehaviour
         scoutWindow.gameObject.SetActive(false);
         teamListWindow.gameObject.SetActive(false);
         leagueWindow.gameObject.SetActive(false);
+        calendarWindow.gameObject.SetActive(false);
     }
     #endregion PageReload
 
@@ -319,7 +327,108 @@ public class OuterGameSceneManager : MonoBehaviour
     {
         CloseAllWindow();
 
+        DeleteAllItemsInLeagueWindow();
+
         leagueWindow.gameObject.SetActive(true);
+
+        List<League> leagueList = new(GameManager.Instance.Leagues.Values);
+
+        for (int i = 0; i < leagueList.Count; i++)
+        {
+            League league = leagueList[i];
+
+            GameObject item = Instantiate(leagueItemPrefab);
+            item.GetComponent<LeagueItemClickHandler>().league = league;
+            item.transform.Find("NameText").GetComponent<TextMeshProUGUI>().text = league.Name;
+            item.transform.SetParent(leagueWindow.GetChild(0).GetChild(0));
+        }
+    }
+
+    void DeleteAllItemsInLeagueWindow()
+    {
+        Transform[] allItems = leagueWindow.GetComponentsInChildren<Transform>();
+        foreach (Transform t in allItems)
+        {
+            if (t.CompareTag("LeagueWindow")) continue;
+            Destroy(t.gameObject);
+        }
     }
     #endregion League
+
+    #region Calendar
+    public void ActivateCalendarWindow()
+    {
+        CloseAllWindow();
+
+        DeleteAllItemsInCalendarWindow();
+
+        calendarNowYear = GameManager.Instance.NowDate.Year;
+        calendarWindow.gameObject.SetActive(true);
+
+        WriteYearInCalendarWindow();
+
+        MakeCalendarItems();
+    }
+
+    void WriteYearInCalendarWindow()
+    {
+        calendarWindow.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = calendarNowYear + "년";
+    }
+
+    void MakeCalendarItems()
+    {
+        Transform CalendarEmptyObject = calendarWindow.GetChild(1);
+        for (int i = 1; i < 13; i++)
+        {
+            GameObject item = Instantiate(calendarItemPrefab);
+            CalendarItemClickHandler handler = item.GetComponent<CalendarItemClickHandler>();
+            handler.month = i;
+            foreach (Match m in GameManager.Instance.Matches.Values)
+            {
+                if (m.DDay.Year > calendarNowYear) break;
+                if (m.DDay.Year == calendarNowYear)
+                {
+                    if (m.DDay.Month > i) break;
+                    if (m.DDay.Month == i)
+                    {
+                        handler.matches.Add(m.IDNumber);
+                    }
+                }
+            }
+            item.GetComponent<CalendarItemContentsWriter>().WriteContents();
+            item.transform.SetParent(CalendarEmptyObject);
+        }
+    }
+
+    void DeleteAllItemsInCalendarWindow()
+    {
+        Transform[] allItems = calendarWindow.GetComponentsInChildren<Transform>();
+        foreach (Transform t in allItems)
+        {
+            if (t.CompareTag("CalendarWindow")) continue;
+            Destroy(t.gameObject);
+        }
+    }
+
+    public void ClickButtonInCalendarWindow(int i)
+    {
+        switch (i) // PrevYearButton => i = -1, NextYearButton => i = 1
+        {
+            case 1:
+                if (calendarNowYear >= GameManager.Instance.NowDate.Year + 1) return;
+                calendarNowYear += 1;
+                WriteYearInCalendarWindow();
+                DeleteAllItemsInCalendarWindow();
+                MakeCalendarItems();
+                break;
+            case -1:
+                if (calendarNowYear <= GameManager.Instance.NowDate.Year) return;
+                calendarNowYear -= 1;
+                WriteYearInCalendarWindow();
+                DeleteAllItemsInCalendarWindow();
+                MakeCalendarItems();
+                break;
+        }
+    }
+    #endregion Calendar
 }
