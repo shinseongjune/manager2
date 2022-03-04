@@ -31,7 +31,7 @@ public class League
     readonly List<int> matches = new();
     readonly List<int> playOffs = new();
 
-    readonly List<int> entry = new();
+    readonly HashSet<int> entry = new();
     #endregion Variables
 
     #region Properties
@@ -52,7 +52,7 @@ public class League
     public List<int> Matches => matches;
     public List<int> PlayOffs => playOffs;
 
-    public List<int> Entry => entry;
+    public HashSet<int> Entry => entry;
     #endregion Properties
 
     public League(int idNumber, int ordinalNumber, string name, int entryMin, int entryMax, LeagueSystem regularSeason, LeagueSystem playOff = LeagueSystem.None, int playOffTeamCount = 0)

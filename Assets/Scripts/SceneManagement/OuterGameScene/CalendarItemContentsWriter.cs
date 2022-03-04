@@ -12,22 +12,33 @@ public class CalendarItemContentsWriter : MonoBehaviour
         List<int> matches = handler.matches;
 
         transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = month + "월";
-        int nowYear = OuterGameSceneManager.Instance.calendarNowYear;
 
         for (int i = 1; i < 5; i++)
         {
+            GameObject quarterTextGameObject = transform.GetChild(i).GetChild(1).gameObject;
+            quarterTextGameObject.SetActive(false);
             for (int j = 0; j < matches.Count; j++)
             {
                 Match m = GameManager.Instance.Matches[matches[j]];
                 if (m.DDay.Quarter == i)
                 {
-                    GameObject quarterTextGameObject = transform.GetChild(i).GetChild(1).gameObject;
                     quarterTextGameObject.SetActive(true);
+                    quarterTextGameObject.GetComponent<TextMeshProUGUI>().text = "";
                     string enemy;
-                    if (m.Team1 == -1 || m.Team2 == -1) enemy = "미정";
-                    else if (m.Team1 == GameManager.Instance.Managers[0].Team) enemy = GameManager.Instance.Teams[m.Team2].Name;
-                    else enemy = GameManager.Instance.Teams[m.Team1].Name;
-                    quarterTextGameObject.GetComponent<TextMeshProUGUI>().text = "vs" + " " + enemy;
+                    if (m.Team1 == GameManager.Instance.Managers[0].Team)
+                    {
+                        if (m.Team2 == -1) enemy = "미정";
+                        else enemy = GameManager.Instance.Teams[m.Team2].Name;
+
+                        quarterTextGameObject.GetComponent<TextMeshProUGUI>().text = "vs " + enemy;
+                    }
+                    else if (m.Team2 == GameManager.Instance.Managers[0].Team)
+                    {
+                        if (m.Team1 == -1) enemy = "미정";
+                        else enemy = GameManager.Instance.Teams[m.Team1].Name;
+
+                        quarterTextGameObject.GetComponent<TextMeshProUGUI>().text = "vs " + enemy;
+                    }
                     break;
                 }
             }

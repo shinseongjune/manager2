@@ -32,7 +32,7 @@ public class GameManager
     readonly Dictionary<int, Player> players = new();
     readonly Dictionary<int, Manager> managers = new();
     readonly Dictionary<int, Team> teams = new();
-    readonly Dictionary<int, Match> matches = new();
+    Dictionary<int, Match> matches = new();
     readonly Dictionary<int, League> leagues = new();
     #endregion Variables
 
@@ -43,7 +43,11 @@ public class GameManager
     public Dictionary<int, Player> Players => players;
     public Dictionary<int, Manager> Managers => managers;
     public Dictionary<int, Team> Teams => teams;
-    public Dictionary<int, Match> Matches => matches;
+    public Dictionary<int, Match> Matches
+    {
+        get => matches;
+        set => matches = value;
+    }
     public Dictionary<int, League> Leagues => leagues;
 
     public int NextPlayerId { get => nextPlayerId; set => nextPlayerId = value; }

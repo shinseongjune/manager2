@@ -9,6 +9,7 @@ TagManager:
   - TeamListWindow
   - LeagueWindow
   - CalendarWindow
+  - CalendarPopUpWindow
   layers:
   - Default
   - TransparentFX

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class Maker
 {
@@ -83,14 +84,15 @@ public static class Maker
     /// <param name="leagueId"></param>
     public static void MakeAllMatches(int leagueId)
     {
+        //TODO: match에 여러 변수 추가: 라운드, 승자조/패자조, 준결승/결승, 1경기/2경기/... 등등. 이후 다시 만들것
         League league = GameManager.Instance.Leagues[leagueId];
 
         Date date = league.StartDate;
-        int entryCount = league.Entry.Count;
         int playOffTeamCount = league.PlayOffTeamCount;
         int matchCount;
 
         List<int> tempTeams = new(league.Entry);
+        int tempTeamsCount = tempTeams.Count;
         tempTeams.Shuffle();
 
         int team1;
@@ -117,7 +119,7 @@ public static class Maker
                     for (int j = 0; j < tempTeams.Count / 2; j++)
                     {
                         team1 = tempTeams[(i + j) % tempTeams.Count];
-                        team2 = tempTeams[(tempTeams.Count - 1) - j];
+                        team2 = tempTeams[(i + (tempTeams.Count - 1) - j) % tempTeams.Count];
                         Match m = MakeMatch(team1, team2, date + i, leagueId);
                         league.AddMatch(m.IDNumber);
                     }
@@ -127,60 +129,60 @@ public static class Maker
                         league.AddMatch(m.IDNumber);
                     }
                 }
-                date += tempTeams.Count + 4;
+                date += tempTeamsCount + 4;
                 break;
             case LeagueSystem.SingleElimination:
-                //TODO: 라운드 수를 세서 위에서 아래로 만들어가는게 나을듯?
                 int basicNum = 1;
-                if (basicNum < entryCount)
+                int roundCount = 1;
+                while (basicNum < tempTeamsCount)
                 {
                     basicNum *= 2;
+                    roundCount++;
                 }
-                int unearnedCount = basicNum - entryCount;
-                int firstRoundTeamCount = (entryCount - unearnedCount) / 2;
-
-                int[] firstRoundTeams = new int[firstRoundTeamCount];
-
-                for (int i = 0; i < firstRoundTeamCount; i++)
+                int unearnedCount = basicNum - tempTeamsCount;
+                
+                int matchCountInARound = 1; ;
+                while (roundCount > 0)
                 {
-                    int reverseIndex = (firstRoundTeamCount - 1) - i;
-                    firstRoundTeams[reverseIndex] = tempTeams[reverseIndex];
-                    tempTeams.RemoveAt(reverseIndex);
+                    switch (roundCount)
+                    {
+                        case 2:
+                            for (int i = 0; i < unearnedCount; i++)
+                            {
+                                Match m = Maker.MakeMatch(-1, tempTeams[0], date += (int)Math.Round(roundCount + (Math.Log((double)roundCount))), leagueId);
+                                tempTeams.RemoveAt(0);
+                                league.AddMatch(m);
+                            }
+                            for (int i = 0; i < matchCountInARound - unearnedCount; i++)
+                            {
+                                Match m = Maker.MakeMatch(-1, -1, date += (int)Math.Round(roundCount + (Math.Log((double)roundCount))), leagueId);
+                                league.AddMatch(m);
+                            }
+                            break;
+                        case 1:
+                            for (int i = 0; i < tempTeams.Count / 2; i++)
+                            {
+                                team1 = tempTeams[0];
+                                team2 = tempTeams[1];
+                                tempTeams.RemoveAt(0);
+                                tempTeams.RemoveAt(0);
+                                Match m = Maker.MakeMatch(team1, team2, date += (int)Math.Round(roundCount + (Math.Log((double)roundCount))), leagueId);
+                                league.AddMatch(m);
+                            }
+                            break;
+                        default:
+                            for (int i = 0; i < matchCountInARound; i++)
+                            {
+                                Match m = Maker.MakeMatch(-1, -1, date += (int)Math.Round(roundCount + (Math.Log((double)roundCount))), leagueId);
+                                league.AddMatch(m);
+                            }
+                            break;
+                    }
+                    matchCountInARound *= 2;
+                    roundCount--;
                 }
 
-                for (int i = 0; i < firstRoundTeams.Length; i += 2)
-                {
-                    team1 = firstRoundTeams[i];
-                    team2 = firstRoundTeams[i + 1];
-                    Match m = MakeMatch(team1, team2, date + i, leagueId);
-                    league.AddMatch(m.IDNumber);
-                }
-                date += firstRoundTeamCount / 2 + 1;
-
-                for (int i = 0; i < unearnedCount; i++)
-                {
-                    team1 = -1;
-                    team2 = tempTeams[i];
-                    tempTeams.RemoveAt(i);
-                    Match m = MakeMatch(team1, team2, date, leagueId);
-                    league.AddMatch(m.IDNumber);
-                }
-
-                for (int i = 0; i < tempTeams.Count; i += 2)
-                {
-                    team1 = tempTeams[i];
-                    team2 = tempTeams[i + 1];
-                    Match m = MakeMatch(team1, team2, date, leagueId);
-                    league.AddMatch(m.IDNumber);
-                }
-                date += 1;
-
-                for (int i = 0; i < (unearnedCount + tempTeams.Count / 2) / 2; i++)
-                {
-                    Match m = MakeMatch(-1, -1, date + i, leagueId);
-                    league.AddMatch(m.IDNumber);
-                }
-                date += (unearnedCount + tempTeams.Count / 2) + 4;
+                date += tempTeamsCount + 4;
 
                 break;
             case LeagueSystem.DoubleElimination:
@@ -216,5 +218,9 @@ public static class Maker
             case LeagueSystem.None:
                 break;
         }
+
+        var tempMatchesList = GameManager.Instance.Matches.ToList();
+        tempMatchesList.Sort(new MatchDicComparer());
+        GameManager.Instance.Matches = tempMatchesList.ToDictionary(x => x.Key, x => x.Value);
     }
 }

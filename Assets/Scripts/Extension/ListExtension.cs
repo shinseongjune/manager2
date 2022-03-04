@@ -6,7 +6,7 @@ public static class ListExtension
 {
     public static void Shuffle(this List<int> list)
     {
-        Random r = new Random(DateTime.Now.Millisecond);
+        Random r = new(DateTime.Now.Millisecond);
         int n = list.Count;
         while (n > 1)
         {

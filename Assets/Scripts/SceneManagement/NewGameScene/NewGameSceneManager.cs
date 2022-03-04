@@ -92,7 +92,8 @@ public class NewGameSceneManager : MonoBehaviour
         if (teamName.Length < 1) return;
 
         composedTeamNames.Add(teamName);
-        Maker.MakeTeam(teamName);
+        Team t = Maker.MakeTeam(teamName);
+        GameManager.Instance.Managers[0].Team = t.IDNumber;
 
         makingTeamWindow.SetActive(false);
         selectPlayerWindow.SetActive(true);
@@ -154,11 +155,12 @@ public class NewGameSceneManager : MonoBehaviour
             int entryMax = Random.Range(6, 11);
             int playOffSystem = Random.Range(0, 4);
             League league = Maker.MakeLeague(composedLeagueName, entryMin, entryMax,  (LeagueSystem)Random.Range(0, 3), (LeagueSystem)playOffSystem, (playOffSystem == 3 ? 0:3));
-            league.StartDate = new(Random.Range(2022, 2024), Random.Range(1, 13), Random.Range(1, 5));
+            league.SetStartDate(Random.Range(8, 40));
 
             List<int> tempTeams = new(GameManager.Instance.Teams.Keys);
             tempTeams.Shuffle();
-            for (int j = 0; j < Random.Range(entryMin, Mathf.Min(entryMax + 1, tempTeams.Count)); j++)
+            int maxJ = Random.Range(entryMin + 1, Mathf.Min(entryMax + 1, tempTeams.Count));
+            for (int j = 0; j < maxJ; j++)
             {
                 league.Entry.Add(tempTeams[j]);
             }

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 public static class LeagueExtension
 {
-    static void SetStartDate(this League league, int i)
+    public static void SetStartDate(this League league, int i)
     {
         league.StartDate = GameManager.Instance.NowDate + i;
     }
 
-    static void NextOrdinalNumber(this League league)
+    public static void NextOrdinalNumber(this League league)
     {
         league.OrdinalNumber++;
     }
