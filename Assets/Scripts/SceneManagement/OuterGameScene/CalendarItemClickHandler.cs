@@ -11,7 +11,7 @@ public class CalendarItemClickHandler : MonoBehaviour, IPointerEnterHandler, IPo
     Image backgroundImage;
     Transform calendarPopUpWindow;
     public List<int> matches;
-    Transform[] quartersContent = new Transform[4];
+    readonly Transform[] quartersContent = new Transform[4];
     [SerializeField] GameObject calendarPopUpItemPrefab;
 
     private void Awake()

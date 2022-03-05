@@ -37,7 +37,7 @@ public class GameManager
     #endregion Variables
 
     #region Properties
-    public Date NowDate => nowDate;
+    public Date NowDate { get => nowDate; set => nowDate = value; }
 
     public Dictionary<int, Contract> Contracts => contracts;
     public Dictionary<int, Player> Players => players;
@@ -292,10 +292,5 @@ public class GameManager
         {
             throw new NotExistsInCollectionException();
         }
-    }
-
-    public void DateProgress()
-    {
-        nowDate++;
     }
 }

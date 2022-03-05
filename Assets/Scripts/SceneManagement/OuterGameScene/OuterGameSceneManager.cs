@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Random = UnityEngine.Random;
 
 public class OuterGameSceneManager : MonoBehaviour
 {
@@ -50,6 +51,9 @@ public class OuterGameSceneManager : MonoBehaviour
     [SerializeField] GameObject calendarItemPrefab;
     public int calendarNowYear = GameManager.Instance.NowDate.Year;
 
+    [Header("시스템윈도우")]
+    [SerializeField] Transform systemWindow;
+
     #endregion Variables
 
     #region UnityFunctions
@@ -69,7 +73,7 @@ public class OuterGameSceneManager : MonoBehaviour
 
     private void Start()
     {
-        MyTeamReload();
+        SetMyTeamAndReload();
 
         GetIndependentPlayersArray();
         CalculateScoutWindowMaxPage();
@@ -77,7 +81,7 @@ public class OuterGameSceneManager : MonoBehaviour
     #endregion UnityFunctions
 
     #region PageReload
-    public void MyTeamReload()
+    public void SetMyTeamAndReload()
     {
         nowTeam = GameManager.Instance.Managers[0].Team;
 
@@ -120,7 +124,7 @@ public class OuterGameSceneManager : MonoBehaviour
             default:
                 break;
         }
-        //버튼들 끄고 켜기
+        //TODO: 버튼들 끄고 켜기
     }
 
     void CloseAllWindow()
@@ -431,4 +435,48 @@ public class OuterGameSceneManager : MonoBehaviour
         }
     }
     #endregion Calendar
+
+    #region DateProgress
+    public void DateProgress()
+    {
+        GameManager.Instance.NowDate++;
+
+        //TODO:선수이적,은퇴,계약해지,신입선수 등등
+        //TODO:신규팀,팀해체 등등
+        //TODO:신규리그, 리그해체 등등
+        //TODO:경기가 있을 경우->경기 진행->결과반영
+        TextMeshProUGUI systemText = systemWindow.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        systemText.text = "";
+        foreach (Match m in GameManager.Instance.Matches.Values)
+        {
+            if (!(m.DDay == GameManager.Instance.NowDate))
+            {
+                continue;
+            }
+            int winTeam = GamePlay();
+            systemWindow.gameObject.SetActive(true);
+            switch (winTeam)
+            {
+                case 0:
+                    systemText.text += GameManager.Instance.Leagues[m.League].Name + " 승자 : " + GameManager.Instance.Teams[m.Team1].Name + " (vs " + GameManager.Instance.Teams[m.Team2].Name + ")\n";
+                    break;
+                case 1:
+                    systemText.text += GameManager.Instance.Leagues[m.League].Name + " 승자 : " + GameManager.Instance.Teams[m.Team2].Name + " (vs " + GameManager.Instance.Teams[m.Team1].Name + ")\n";
+                    break;
+            }
+        }
+
+        //TODO:해가 넘어가면 이전 해 경기 삭제? / 나이 증가 등등
+
+        //TODO:기타 필요한것
+
+        SetMyTeamAndReload();
+    }
+
+    int GamePlay()
+    {
+        int random = Random.Range(0, 2);
+        return random;
+    }
+    #endregion DateProgress
 }

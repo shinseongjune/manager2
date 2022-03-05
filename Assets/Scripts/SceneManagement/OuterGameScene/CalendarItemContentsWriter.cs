@@ -20,26 +20,30 @@ public class CalendarItemContentsWriter : MonoBehaviour
             for (int j = 0; j < matches.Count; j++)
             {
                 Match m = GameManager.Instance.Matches[matches[j]];
-                if (m.DDay.Quarter == i)
+                if (m.DDay.Year == OuterGameSceneManager.Instance.calendarNowYear && m.DDay.Month == month && m.DDay.Quarter == i)
                 {
-                    quarterTextGameObject.SetActive(true);
-                    quarterTextGameObject.GetComponent<TextMeshProUGUI>().text = "";
-                    string enemy;
                     if (m.Team1 == GameManager.Instance.Managers[0].Team)
                     {
+                        quarterTextGameObject.SetActive(true);
+                        quarterTextGameObject.GetComponent<TextMeshProUGUI>().text = "";
+                        string enemy;
                         if (m.Team2 == -1) enemy = "미정";
                         else enemy = GameManager.Instance.Teams[m.Team2].Name;
 
                         quarterTextGameObject.GetComponent<TextMeshProUGUI>().text = "vs " + enemy;
+                        break;
                     }
                     else if (m.Team2 == GameManager.Instance.Managers[0].Team)
                     {
+                        quarterTextGameObject.SetActive(true);
+                        quarterTextGameObject.GetComponent<TextMeshProUGUI>().text = "";
+                        string enemy;
                         if (m.Team1 == -1) enemy = "미정";
                         else enemy = GameManager.Instance.Teams[m.Team1].Name;
 
                         quarterTextGameObject.GetComponent<TextMeshProUGUI>().text = "vs " + enemy;
+                        break;
                     }
-                    break;
                 }
             }
             

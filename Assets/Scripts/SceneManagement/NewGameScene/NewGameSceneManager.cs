@@ -153,17 +153,20 @@ public class NewGameSceneManager : MonoBehaviour
 
             int entryMin = Random.Range(4, 5);
             int entryMax = Random.Range(6, 11);
-            int playOffSystem = Random.Range(0, 4);
-            League league = Maker.MakeLeague(composedLeagueName, entryMin, entryMax,  (LeagueSystem)Random.Range(0, 3), (LeagueSystem)playOffSystem, (playOffSystem == 3 ? 0:3));
+            int leagueSystem = Random.Range(0, 2); //TODO: 더블엘리 만들고 바꾸기 // 걍 다 바꿔야될듯
+            int playOffSystem = Random.Range(0, 2);
+            League league = Maker.MakeLeague(composedLeagueName, entryMin, entryMax,  (LeagueSystem)leagueSystem, (LeagueSystem)playOffSystem, (playOffSystem == 3 ? 0:3));
             league.SetStartDate(Random.Range(8, 40));
 
             List<int> tempTeams = new(GameManager.Instance.Teams.Keys);
             tempTeams.Shuffle();
-            int maxJ = Random.Range(entryMin + 1, Mathf.Min(entryMax + 1, tempTeams.Count));
+            int maxJ = Random.Range(entryMin + 1, Mathf.Min(entryMax + 1, tempTeams.Count)) - 1;
             for (int j = 0; j < maxJ; j++)
             {
                 league.Entry.Add(tempTeams[j]);
             }
+            if (!league.Entry.Contains(0)) league.Entry.Add(0);
+
             Maker.MakeAllMatches(league.IDNumber);
         }
     }
