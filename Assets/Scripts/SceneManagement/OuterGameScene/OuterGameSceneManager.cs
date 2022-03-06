@@ -445,7 +445,7 @@ public class OuterGameSceneManager : MonoBehaviour
         //TODO:신규팀,팀해체 등등
         //TODO:신규리그, 리그해체 등등
         //TODO:경기가 있을 경우->경기 진행->결과반영
-        TextMeshProUGUI systemText = systemWindow.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI systemText = systemWindow.GetChild(0).GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
         systemText.text = "";
         foreach (Match m in GameManager.Instance.Matches.Values)
         {
