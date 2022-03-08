@@ -8,7 +8,8 @@ public class Player
     sbyte age;
 
     int team = -1;
-    readonly List<int> contract = new();
+    readonly List<int> contracts = new();
+    readonly List<int> offers = new();
 
     public int IDNumber => idNumber;
     public string Name
@@ -26,7 +27,8 @@ public class Player
         get { return team; }
         set { team = value; }
     }
-    public List<int> Contract => contract;
+    public List<int> Contracts => contracts;
+    public List<int> Offers => offers;
 
     public Player(int id, string name, sbyte age)
     {

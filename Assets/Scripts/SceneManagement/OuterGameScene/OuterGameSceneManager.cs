@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,11 +15,14 @@ public class OuterGameSceneManager : MonoBehaviour
     #endregion Singleton
 
     #region Variables
-    int nowTeam;
 
     [Header("Upper Bar")]
     [SerializeField] TextMeshProUGUI upperBarTeamNameText;
     [SerializeField] TextMeshProUGUI upperBarDateText;
+
+    [Header("Side Bar")]
+    [SerializeField] Button sideBarMyPlayersListButton;
+    [SerializeField] Button sideBarScoutButton;
 
     [Header("선수단")]
     [SerializeField] Transform myPlayersListWindow;
@@ -73,7 +74,7 @@ public class OuterGameSceneManager : MonoBehaviour
 
     private void Start()
     {
-        SetMyTeamAndReload();
+        MainPageReload();
 
         GetIndependentPlayersArray();
         CalculateScoutWindowMaxPage();
@@ -81,28 +82,17 @@ public class OuterGameSceneManager : MonoBehaviour
     #endregion UnityFunctions
 
     #region PageReload
-    public void SetMyTeamAndReload()
+    public void MainPageReload()
     {
-        nowTeam = GameManager.Instance.Managers[0].Team;
+        CloseAllWindows();
 
-        CloseAllWindow();
-
-        UpperBarUpdate();
-        SideBarUpdate();
-    }
-
-    public void SetNowTeamAndReload(int teamId)
-    {
-        nowTeam = teamId;
-        
-        CloseAllWindow();
-        
         UpperBarUpdate();
         SideBarUpdate();
     }
 
     void UpperBarUpdate()
     {
+        int nowTeam = GameManager.Instance.Managers[0].Team;
         switch (nowTeam)
         {
             case -1:
@@ -117,35 +107,41 @@ public class OuterGameSceneManager : MonoBehaviour
 
     void SideBarUpdate()
     {
+        int nowTeam = GameManager.Instance.Managers[0].Team;
         switch (nowTeam)
         {
             case -1:
+                sideBarMyPlayersListButton.interactable = false;
+                sideBarScoutButton.interactable = false;
                 break;
             default:
+                sideBarMyPlayersListButton.interactable = true;
+                sideBarScoutButton.interactable = true;
                 break;
         }
-        //TODO: 버튼들 끄고 켜기
     }
 
-    void CloseAllWindow()
+    void CloseAllWindows()
     {
         myPlayersListWindow.gameObject.SetActive(false);
         scoutWindow.gameObject.SetActive(false);
         teamListWindow.gameObject.SetActive(false);
         leagueWindow.gameObject.SetActive(false);
         calendarWindow.gameObject.SetActive(false);
+        //TODO: 팝업 다 끄기
     }
     #endregion PageReload
 
     #region MyPlayersList
     public void ActivateMyPlayersListWindow()
     {
-        CloseAllWindow();
+        CloseAllWindows();
 
         DeleteAllItemsInMyPlayersListWindow();
 
         myPlayersListWindow.gameObject.SetActive(true);
 
+        int nowTeam = GameManager.Instance.Managers[0].Team;
         int playerCount = GameManager.Instance.Teams[nowTeam].Players.Count;
 
         //Content 크기 조정 //(기본크기) - (여백 + 아이템크기) * (계수) - (여백)
@@ -205,7 +201,7 @@ public class OuterGameSceneManager : MonoBehaviour
 
     public void ActivateScoutWindow()
     {
-        CloseAllWindow();
+        CloseAllWindows();
         scoutWindow.gameObject.SetActive(true);
         scoutWindowNowPage = 1;
         RefreshScoutWindow();
@@ -296,7 +292,7 @@ public class OuterGameSceneManager : MonoBehaviour
     #region TeamList
     public void ActivateTeamListWindow()
     {
-        CloseAllWindow();
+        CloseAllWindows();
 
         DeleteAllItemsInTeamListWindow();
 
@@ -329,7 +325,7 @@ public class OuterGameSceneManager : MonoBehaviour
     #region League
     public void ActivateLeagueWindow()
     {
-        CloseAllWindow();
+        CloseAllWindows();
 
         DeleteAllItemsInLeagueWindow();
 
@@ -362,7 +358,7 @@ public class OuterGameSceneManager : MonoBehaviour
     #region Calendar
     public void ActivateCalendarWindow()
     {
-        CloseAllWindow();
+        CloseAllWindows();
 
         DeleteAllItemsInCalendarWindow();
 
@@ -439,7 +435,8 @@ public class OuterGameSceneManager : MonoBehaviour
     #region DateProgress
     public void DateProgress()
     {
-        GameManager.Instance.NowDate++;
+
+        CloseAllWindows();
 
         //TODO:선수이적,은퇴,계약해지,신입선수 등등
         //TODO:신규팀,팀해체 등등
@@ -466,11 +463,22 @@ public class OuterGameSceneManager : MonoBehaviour
             }
         }
 
+        GameManager.Instance.NowDate++;
+
         //TODO:해가 넘어가면 이전 해 경기 삭제? / 나이 증가 등등
 
         //TODO:기타 필요한것
 
-        SetMyTeamAndReload();
+        if (GameManager.Instance.Managers[0].Team == -1)
+        {
+            GameManager.Instance.Managers[0].Team = 0;
+        }
+        else
+        {
+            GameManager.Instance.Managers[0].Team = -1;
+        }
+
+        MainPageReload();
     }
 
     int GamePlay()

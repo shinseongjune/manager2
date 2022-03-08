@@ -361,6 +361,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49a693139df1a5b41bc9c91b767279c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamPopUpWindowPlayerItemPrefab: {fileID: 9165200531694553215, guid: 3f9968a7224d0f343bca91c8faec28e4, type: 3}
+  teamPopUpWindowLeagueItemPrefab: {fileID: 7888762171196307695, guid: 560e234e01f693b42ab0c8d1ec2aa5ff, type: 3}
 --- !u!1 &8958156636444660994
 GameObject:
   m_ObjectHideFlags: 0

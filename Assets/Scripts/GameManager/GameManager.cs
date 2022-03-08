@@ -34,9 +34,17 @@ public class GameManager
     readonly Dictionary<int, Team> teams = new();
     Dictionary<int, Match> matches = new();
     readonly Dictionary<int, League> leagues = new();
+    readonly Dictionary<int, Contract> offers = new();
     #endregion Variables
 
     #region Properties
+    public int NextPlayerId { get => nextPlayerId; set => nextPlayerId = value; }
+    public int NextManagerId { get => nextManagerId; set => nextManagerId = value; }
+    public int NextTeamId { get => nextTeamId; set => nextTeamId = value; }
+    public int NextContractId { get => nextContractId; set => nextContractId = value; }
+    public int NextMatchId { get => nextMatchId; set => nextMatchId = value; }
+    public int NextLeagueId { get => nextLeagueId; set => nextLeagueId = value; }
+
     public Date NowDate { get => nowDate; set => nowDate = value; }
 
     public Dictionary<int, Contract> Contracts => contracts;
@@ -49,13 +57,7 @@ public class GameManager
         set => matches = value;
     }
     public Dictionary<int, League> Leagues => leagues;
-
-    public int NextPlayerId { get => nextPlayerId; set => nextPlayerId = value; }
-    public int NextManagerId { get => nextManagerId; set => nextManagerId = value; }
-    public int NextTeamId { get => nextTeamId; set => nextTeamId = value; }
-    public int NextContractId { get => nextContractId; set => nextContractId = value; }
-    public int NextMatchId { get => nextMatchId; set => nextMatchId = value; }
-    public int NextLeagueId { get => nextLeagueId; set => nextLeagueId = value; }
+    public Dictionary<int, Contract> Offers => offers;
     #endregion Properties
 
     /// <summary>
@@ -77,6 +79,7 @@ public class GameManager
         Contracts.Clear();
         Managers.Clear();
         Leagues.Clear();
+        Matches.Clear();
     }
 
     public void AddContract(Contract contract)

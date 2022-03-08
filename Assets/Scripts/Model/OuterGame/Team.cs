@@ -10,6 +10,8 @@ public class Team
     readonly List<int> players = new();
     readonly List<int> contracts = new();
     readonly List<int> matches = new();
+    readonly List<int> offers = new();
+    readonly List<int> leagues = new();
 
     public int IDNumber => idNumber;
 
@@ -31,6 +33,8 @@ public class Team
     public List<int> Players => players;
     public List<int> Contracts => contracts;
     public List<int> Matches => matches;
+    public List<int> Offers => offers;
+    public List<int> Leagues => leagues;
 
     public Team(int id, string name)
     {

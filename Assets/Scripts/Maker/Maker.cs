@@ -41,10 +41,9 @@ public static class Maker
         return team;
     }
 
-    public static Contract MakeContract(int team, int player, Date dDay, int salery)
+    public static Contract MakeContract(int team, int player, Date startDate, Date endDate, int salery)
     {
-        int remainingPeriod = dDay.GetHashCode() - GameManager.Instance.NowDate.GetHashCode();
-        Contract contract = new(GameManager.Instance.NextContractId++, team, player, remainingPeriod, salery);
+        Contract contract = new(GameManager.Instance.NextContractId++, team, player, startDate, endDate, salery);
         GameManager.Instance.AddContract(contract);
         return contract;
     }
@@ -150,13 +149,13 @@ public static class Maker
                         case 2:
                             for (int i = 0; i < unearnedCount; i++)
                             {
-                                Match m = Maker.MakeMatch(-1, tempTeams[0], date + roundCount * 2, leagueId);
+                                Match m = MakeMatch(-1, tempTeams[0], date + roundCount * 2, leagueId);
                                 tempTeams.RemoveAt(0);
                                 tempMatchList.Add(m.IDNumber);
                             }
                             for (int i = 0; i < matchCountInARound - unearnedCount; i++)
                             {
-                                Match m = Maker.MakeMatch(-1, -1, date + roundCount * 2, leagueId);
+                                Match m = MakeMatch(-1, -1, date + roundCount * 2, leagueId);
                                 tempMatchList.Add(m.IDNumber);
                             }
                             break;
@@ -165,14 +164,14 @@ public static class Maker
                             {
                                 team1 = tempTeams[i];
                                 team2 = tempTeams[(tempTeams.Count - 1) - i];
-                                Match m = Maker.MakeMatch(team1, team2, date + roundCount * 2, leagueId);
+                                Match m = MakeMatch(team1, team2, date + roundCount * 2, leagueId);
                                 tempMatchList.Add(m.IDNumber);
                             }
                             break;
                         default:
                             for (int i = 0; i < matchCountInARound; i++)
                             {
-                                Match m = Maker.MakeMatch(-1, -1, date + roundCount * 2, leagueId);
+                                Match m = MakeMatch(-1, -1, date + roundCount * 2, leagueId);
                                 tempMatchList.Add(m.IDNumber);
                             }
                             break;

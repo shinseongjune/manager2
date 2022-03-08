@@ -43,9 +43,9 @@ public static class PlayerExtension
     {
         if (GameManager.Instance.Contracts.ContainsKey(contract.IDNumber))
         {
-            if (!player.Contract.Contains(contract.IDNumber))
+            if (!player.Contracts.Contains(contract.IDNumber))
             {
-                player.Contract.Add(contract.IDNumber);
+                player.Contracts.Add(contract.IDNumber);
             }
             else
             {
@@ -62,9 +62,9 @@ public static class PlayerExtension
     {
         if (GameManager.Instance.Contracts.ContainsKey(contractId))
         {
-            if (!player.Contract.Contains(contractId))
+            if (!player.Contracts.Contains(contractId))
             {
-                player.Contract.Add(contractId);
+                player.Contracts.Add(contractId);
             }
             else
             {
@@ -79,9 +79,9 @@ public static class PlayerExtension
 
     public static void RemoveContract(this Player player, ref Contract contract)
     {
-        if (GameManager.Instance.Contracts.ContainsKey(contract.IDNumber) && player.Contract.Contains(contract.IDNumber))
+        if (GameManager.Instance.Contracts.ContainsKey(contract.IDNumber) && player.Contracts.Contains(contract.IDNumber))
         {
-            player.Contract.Remove(contract.IDNumber);
+            player.Contracts.Remove(contract.IDNumber);
         }
         else
         {
@@ -91,9 +91,9 @@ public static class PlayerExtension
 
     public static void RemoveContract(this Player player, int contractId)
     {
-        if (GameManager.Instance.Contracts.ContainsKey(contractId) && player.Contract.Contains(contractId))
+        if (GameManager.Instance.Contracts.ContainsKey(contractId) && player.Contracts.Contains(contractId))
         {
-            player.Contract.Remove(contractId);
+            player.Contracts.Remove(contractId);
         }
         else
         {

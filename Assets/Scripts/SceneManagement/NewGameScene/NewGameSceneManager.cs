@@ -44,8 +44,8 @@ public class NewGameSceneManager : MonoBehaviour
     readonly Player[] players = new Player[3];
     const int INDEPENDENT_PLAYER_COUNT = 100;
 
-    readonly string[] teamNamePrefix = { "대구", "서울", "인천", "드렁큰", "스칸디나비안" };
-    readonly string[] teamNameSuffix = { "라이온즈", "베어스", "타이거즈", "공벌레단", "로켓단" };
+    readonly string[] teamNamePrefix = { "대구", "서울", "인천", "드렁큰", "스칸디나비안", "빅", "스몰", "어메이징" };
+    readonly string[] teamNameSuffix = { "라이온즈", "베어스", "타이거즈", "공벌레단", "로켓단", "트윈스", "스타즈" };
     readonly string[] playerNamePrefix = { "김", "이", "박", "오", "제갈", "탁", "홍", "존", "조나", "송", "임", "손", "닐" };
     readonly string[] playerNameSuffix = { "태수", "차돈", "홍수", "헨리", "공명", "탁", "제임스", "우현", "종엽", "인석", "전형", "첨지", "문수", "드럭만" };
     readonly string[] leagueNamePrefix = { "GA", "껑충은행배", "우주공항배", "월드와이드", "그랜드", "슈퍼", "서울시장배", "LA", "리얼", "천하제일", "오픈" };
@@ -164,6 +164,7 @@ public class NewGameSceneManager : MonoBehaviour
             for (int j = 0; j < maxJ; j++)
             {
                 league.Entry.Add(tempTeams[j]);
+                GameManager.Instance.Teams[tempTeams[j]].AddLeague(league.IDNumber);
             }
             if (!league.Entry.Contains(0)) league.Entry.Add(0);
 
@@ -173,7 +174,7 @@ public class NewGameSceneManager : MonoBehaviour
 
     void MakeExtraTeams()
     {
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 12; i++)
         {
             string composedTeamName = teamNamePrefix[Random.Range(0, teamNamePrefix.Length)] + teamNameSuffix[Random.Range(0, teamNameSuffix.Length)];
             if (composedTeamNames.Contains(composedTeamName))
@@ -194,9 +195,10 @@ public class NewGameSceneManager : MonoBehaviour
             for (int j = 0; j < playerCount; j++) {
                 string composedPlayerName = playerNamePrefix[Random.Range(0, playerNamePrefix.Length)] + playerNameSuffix[Random.Range(0, playerNameSuffix.Length)];
                 Player player = Maker.MakePlayer(composedPlayerName);
-                Contract contract = Maker.MakeContract(team.IDNumber, player.IDNumber, new(Random.Range(2024, 2028), 12, 4), Random.Range(300, 600));
-                player.AddContract(contract.IDNumber);
-                team.AddContract(contract.IDNumber);
+                //TODO: 계약일 랜덤으로 정해서 넣기
+                //Contract contract = Maker.MakeContract(team.IDNumber, player.IDNumber, new(Random.Range(2024, 2028), 12, 4), Random.Range(300, 600));
+                //player.AddContract(contract.IDNumber);
+                //team.AddContract(contract.IDNumber);
                 team.AddPlayer(player.IDNumber);
             }
         }

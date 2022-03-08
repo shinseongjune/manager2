@@ -192,4 +192,100 @@ public static class TeamExtension
             throw new NotExistsInCollectionException();
         }
     }
+
+    public static void AddOffer(this Team team, ref Contract contract)
+    {
+        if (!team.Offers.Contains(contract.IDNumber))
+        {
+            team.Offers.Add(contract.IDNumber);
+        }
+        else
+        {
+            throw new AlreadyExistsInCollectionException();
+        }
+    }
+
+    public static void AddOffer(this Team team, int contractId)
+    {
+        if (!team.Offers.Contains(contractId))
+        {
+            team.Offers.Remove(contractId);
+        }
+        else
+        {
+            throw new AlreadyExistsInCollectionException();
+        }
+    }
+
+    public static void RemoveOffer(this Team team, ref Contract contract)
+    {
+        if (team.Offers.Contains(contract.IDNumber))
+        {
+            team.Offers.Remove(contract.IDNumber);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
+
+    public static void RemoveOffer(this Team team, int contractId)
+    {
+        if (team.Offers.Contains(contractId))
+        {
+            team.Offers.Remove(contractId);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
+
+    public static void AddLeague(this Team team, ref League league)
+    {
+        if (!team.Leagues.Contains(league.IDNumber))
+        {
+            team.Leagues.Add(league.IDNumber);
+        }
+        else
+        {
+            throw new AlreadyExistsInCollectionException();
+        }
+    }
+
+    public static void AddLeague(this Team team, int leagueId)
+    {
+        if (team.Leagues.Contains(leagueId))
+        {
+            team.Leagues.Add(leagueId);
+        }
+        else
+        {
+            throw new AlreadyExistsInCollectionException();
+        }
+    }
+
+    public static void RemoveLeague(this Team team, ref League league)
+    {
+        if (team.Leagues.Contains(league.IDNumber))
+        {
+            team.Leagues.Remove(league.IDNumber);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
+
+    public static void RemoveLeague(this Team team, int leagueId)
+    {
+        if (team.Leagues.Contains(leagueId))
+        {
+            team.Leagues.Remove(leagueId);
+        }
+        else
+        {
+            throw new NotExistsInCollectionException();
+        }
+    }
 }
