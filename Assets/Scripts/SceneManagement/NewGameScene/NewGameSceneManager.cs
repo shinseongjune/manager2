@@ -164,7 +164,7 @@ public class NewGameSceneManager : MonoBehaviour
             for (int j = 0; j < maxJ; j++)
             {
                 league.Entry.Add(tempTeams[j]);
-                GameManager.Instance.Teams[tempTeams[j]].AddLeague(league.IDNumber);
+                //GameManager.Instance.Teams[tempTeams[j]].AddLeague(league.IDNumber);
             }
             if (!league.Entry.Contains(0)) league.Entry.Add(0);
 
